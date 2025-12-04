@@ -1,0 +1,24 @@
+﻿workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+      when: always
+    - when: never
+
+stages:
+  - build
+
+build-job:
+  stage: build
+  tags:
+    - saas-linux-small-amd64
+  image: maven:3.9-eclipse-temurin-21-alpine
+  
+  script:
+    - chmod +x ./mvnw
+    - ./mvnw clean compile test package
+  
+  artifacts:
+    paths:
+      - ./target/*.jar
+    expire_in: 30 days
+    when: on_success
