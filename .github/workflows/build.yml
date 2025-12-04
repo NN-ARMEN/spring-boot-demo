@@ -1,0 +1,57 @@
+﻿name: Java CI/CD Pipeline
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: "21"
+        distribution: "temurin"
+    
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+    
+    - name: Build with Maven (skip tests)
+      run: |
+        # Даем права на выполнение mvnw если есть
+        if [ -f "mvnw" ]; then
+          chmod +x mvnw
+          ./mvnw clean package -DskipTests
+        else
+          mvn clean package -DskipTests
+        fi
+    
+    - name: Verify build
+      run: |
+        echo "Checking build results..."
+        if [ -d "target" ]; then
+          echo "Target directory contents:"
+          ls -la target/
+          echo "JAR files:"
+          ls -la target/*.jar 2>/dev/null || echo "No JAR files found"
+        else
+          echo "ERROR: Target directory not created!"
+          exit 1
+        fi
+    
+    - name: Upload JAR artifacts
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: java-application
+        path: target/*.jar
+        retention-days: 7
