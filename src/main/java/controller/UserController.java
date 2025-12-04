@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+﻿package com.example.demo.controller;
 
 import com.example.demo.model.User;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +15,9 @@ public class UserController {
     private final AtomicLong counter = new AtomicLong();
 
     public UserController() {
-        // Тестовые данные
-        users.add(new User(counter.incrementAndGet(), "Иван Иванов", "ivan@example.com"));
-        users.add(new User(counter.incrementAndGet(), "Федор Федоров", "fedor@example.com"));
+        // РўРµСЃС‚РѕРІС‹Рµ РґР°РЅРЅС‹Рµ
+        users.add(new User(counter.incrementAndGet(), "РРІР°РЅ РРІР°РЅРѕРІ", "ivan@example.com"));
+        users.add(new User(counter.incrementAndGet(), "Р¤РµРґРѕСЂ Р¤РµРґРѕСЂРѕРІ", "fedor@example.com"));
     }
 
     @GetMapping

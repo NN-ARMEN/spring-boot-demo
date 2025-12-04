@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+﻿package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,11 +8,11 @@ public class HelloController {
 
     @GetMapping("/hello")
     public String hello() {
-        return "Привет из Spring Boot!";
+        return "РџСЂРёРІРµС‚ РёР· Spring Boot!";
     }
 
     @GetMapping("/")
     public String home() {
-        return "Добро пожаловать!";
+        return "Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ!";
     }
 }
